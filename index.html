@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Model with AR and Audio</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
 </head>
-
 <body>
-  <model-viewer id="animatedModel" src="rotatingCube.glb" ar ar-modes="webxr scene-viewer quick-look" alt="A 3D model"
-    auto-rotate camera-controls environment-image="neutral" shadow-intensity="1" animation-name="Run"></model-viewer>
-  <audio id="modelAudio" src="AUD-20240305-WA0002.mp3"></audio>
+  <model-viewer id="animatedModel" src="rotatingCube.glb" ar ar-modes="webxr scene-viewer quick-look" ios-src="model.usdz" alt="A 3D model" auto-rotate camera-controls environment-image="neutral" shadow-intensity="1" autoplay loop animation-name="Run"></model-viewer>
+  <audio id="modelAudio" src="AUD-20240305-WA0002.mp3" loop></audio>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const modelViewer = document.querySelector('#animatedModel');
@@ -25,8 +22,13 @@
           audioElement.currentTime = 0; // Reset audio to start
         }
       });
+
+      // Ensure audio loops if it ends before the user exits AR mode
+      audioElement.addEventListener('ended', function() {
+          this.currentTime = 0;
+          this.play();
+      }, false);
     });
   </script>
 </body>
-
 </html>
